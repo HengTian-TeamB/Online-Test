@@ -5,7 +5,6 @@
         <span class="header_login_text">登录|注册</span>
       </div>
     </HeaderTop>
-    <HelloWorld msg="Welcome to Your Vue.js App" />
     <Login></Login>
   </div>
 </template>

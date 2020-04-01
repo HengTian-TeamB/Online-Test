@@ -8,7 +8,7 @@ import 'view-design/dist/styles/iview.css';
 Vue.use(ViewUI);
 Vue.config.productionTip = false
 
-import '../public/style/resrc.css'
+import '../public/style/normalize.css'
 new Vue({
   router,
   store,
