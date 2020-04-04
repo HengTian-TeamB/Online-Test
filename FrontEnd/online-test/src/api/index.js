@@ -12,5 +12,10 @@ import {
 
 // 登陆
 export const _userLogin = (data) => {
-    return post('/login/user', data)
+    return post('/user/login', data)
+}
+// 注册
+export const _registered = (data) =>{
+    console.log("strat regi")
+    return post('/user/register', data)
 }
