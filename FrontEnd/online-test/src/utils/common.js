@@ -14,8 +14,15 @@ export const phoneNumReg = (_this, phoneNum) => {
             // _this.$toasted.error("请输入有效的手机号码").goAway(1000);
             _this.$Message.error("请输入有效的手机号码")
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
+}
+// 字符非空校验
+export const isNotNull = (_this, str, msg) => {
+    if (str === '') {
+        _this.$Message.error(msg + "不可为空")
+        return false
+    }
+    return true
 }

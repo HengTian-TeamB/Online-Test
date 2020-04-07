@@ -42,8 +42,6 @@ axios.interceptors.request.use(
     if (config.method === 'post') {
       config.data = qs.stringify(config.data);
     }
-    console.log("req is:")
-    console.log(config)
     return config;
   },
   err => {
@@ -65,8 +63,6 @@ axios.interceptors.response.use(
     //       }
     //     })
     //   }
-    console.log("res is")
-    console.log(response)
     return response;
   },
   error => {

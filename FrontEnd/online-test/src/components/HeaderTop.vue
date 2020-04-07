@@ -20,7 +20,7 @@ export default {
 
 <style lang="stylus" type="text/stylus" rel="stylesheet/stylus">
   .header
-    background-color #927352
+    background-color rgba(113,110,139,0.6)
     position relative
     z-index 100
     left 0

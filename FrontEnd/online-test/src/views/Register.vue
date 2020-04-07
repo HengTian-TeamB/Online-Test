@@ -12,15 +12,19 @@
       <FormItem label="确认密码" prop="passwdCheck">
         <Input type="password" v-model="formCustom.passwdCheck"></Input>
       </FormItem>
-      <FormItem>
-        <Button type="primary" @click="handleSubmit('formCustom')">注册</Button>
+      <FormItem label="验证码">
+        <Input class="input_getVerCode" type="password" v-model="formCustom.vercode"></Input>
+        <Button class="btn_getVerCode" shape="circle" size="small" type="info" :disabled="showGetVerCode"
+          @click="getVerCode('formCustom')">获取验证码</Button>
+        <span class="time"><Time :time="verCodeTime" :interval="1" v-show="showGetVerCode" /></span>
       </FormItem>
+      <Button type="primary" @click="handleSubmit('formCustom')">注册</Button>
     </Form>
   </div>
 </template>
 <script>
 import { phoneNumReg } from "../utils/common";
-import { _registered } from "../api/index";
+import { _register, _vfPhone, _getInfo } from "../api/index";
 
 export default {
   data() {
@@ -45,6 +49,8 @@ export default {
       }
     };
     return {
+      showGetVerCode: false,
+      verCodeTime: "",
       formCustom: {
         phone: "",
         passwd: "",
@@ -57,15 +63,53 @@ export default {
     };
   },
   methods: {
+    // 获取验证码
+    getVerCode(name) {
+      if (phoneNumReg(this, this.formCustom.phone)) {
+        this.$refs[name].validate(valid => {
+          if (valid) {
+            let _vfPhoneParam = {
+              phone: this.formCustom.phone
+            };
+            _vfPhone(_vfPhoneParam).then(res => {
+              console.log("vfphone res:" + res.msg);
+              if (res.status === 0) {
+                // 未被注册
+                let _getInfoParam = {
+                  phone: this.formCustom.phone,
+                };
+                _getInfo(_getInfoParam).then(res => {
+                  console.log("getInfo res:" + res.msg)
+                  if (res.status === 0) {
+                    // 获取验证码成功 改变前端界面
+                    this.showGetVerCode = true;
+                    this.verCodeTime = new Date();
+                    setTimeout(() => {
+                      this.showGetVerCode = false;
+                    }, 30000);
+                  }
+                });
+              } else {
+                this.$Message.error(res.msg);
+              }
+            });
+          } else {
+            this.$Message.error("请输入完整信息!");
+          }
+        });
+      }
+    },
+    // 注册
     handleSubmit(name) {
       if (phoneNumReg(this, this.formCustom.phone)) {
         this.$refs[name].validate(valid => {
           if (valid) {
             let data = {
               phone: this.formCustom.phone,
-              password: this.formCustom.passwd
+              password: this.formCustom.passwd,
+              vfcode: this.formCustom.vercode
             };
-            _registered(data).then(res => {
+            _register(data).then(res => {
               console.log(res);
               if (res.status === 0) {
                 this.$Message.success(res.msg);
@@ -87,6 +131,27 @@ export default {
 };
 </script>
 <style >
+.register {
+  background: url("../../public/img/home_bg.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 100%;
+  position: fixed;
+  width: 100%;
+}
+.form {
+  width: 500px;
+  height: 370px;
+  background: rgba(239, 238, 241, 0.8);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -250px;
+  margin-top: -175px;
+  padding: 0 40px;
+}
 h3 {
   display: block;
   width: 160px;
@@ -108,25 +173,21 @@ p span {
   color: #2e58ff;
   cursor: pointer;
 }
-.register {
-  background: url("../../public/img/home_bg.jpg") no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  height: 100%;
-  position: fixed;
-  width: 100%;
+.input_getVerCode {
+  float: left;
+  width: 180px;
 }
-.form {
-  width: 500px;
-  height: 350px;
-  background: rgba(239, 238, 241, 0.8);
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  margin-left: -250px;
-  margin-top: -175px;
-  padding: 0 40px;
+.btn_getVerCode {
+  float: left;
+  margin-left: 10px;
+  margin-top: 4px;
+  font-size: 11px;
+}
+.time {
+  float: left;
+  margin-top: 1px;
+  margin-left: 10px;
+  font-size: 11px;
+  color: #8590a6;
 }
 </style>

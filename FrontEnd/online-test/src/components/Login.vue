@@ -5,7 +5,7 @@
       <TabPane label="免密码登录" name="name1">
         <span class="input_label">账号</span>
         <br />
-        <Input v-model="userNumber" size="large" type="number" prefix="ios-phone-portrait" placeholder="请输入手机号"
+        <Input v-model="userPhone" size="large" type="number" prefix="ios-phone-portrait" placeholder="请输入手机号"
           class="input" />
         <br />
         <span class="input_label">验证码</span>
@@ -20,7 +20,7 @@
       <TabPane label="密码登录" name="name2">
         <span class="input_label">账号</span>
         <br />
-        <Input v-model="userNumber" size="large" type="number" prefix="ios-phone-portrait" placeholder="请输入手机号"
+        <Input v-model="userPhone" size="large" type="number" prefix="ios-phone-portrait" placeholder="请输入手机号"
           class="input" />
         <br />
         <span class="input_label">密码</span>
@@ -43,17 +43,15 @@
 </template>
 
 <script>
-import { _userLogin, _registered } from "../api/index";
-import { infoSend } from "../api/infoClient";
-import { phoneNumReg } from "../utils/common"
+import { _userLogin, _vfPhone, _register, _userLoginByCode,_getInfo } from "../api/index";
+import { phoneNumReg, isNotNull } from "../utils/common";
 export default {
   name: "",
   data() {
     return {
       showGetVerCode: false,
       verCodeTime: "",
-      userNumber: "",
-      real_verCode: "",
+      userPhone: "",
       in_verCode: "",
       userPsd: ""
     };
@@ -64,49 +62,71 @@ export default {
       this.$router.replace("/register");
     },
     // 手机号+密码的用户登录
-    userLogin(userNumber, userPsd) {
+    userLogin() {
       //手机号正则校验
-      if (phoneNumReg(this, this.userNumber)) {
+      if (phoneNumReg(this, this.userPhone)) {
         let data = {
-          phone: this.userNumber,
+          phone: this.userPhone,
           password: this.userPsd
         };
         // 登录
         _userLogin(data).then(res => {
           console.log(res);
           if (res.status === 0) {
-            this.$Message.success(res.msg)
+            this.$Message.success(res.msg);
           } else {
-            this.$Message.error(res.msg)
+            this.$Message.error(res.msg);
           }
         });
       }
     },
     // 获取验证码
     getVerCode() {
-      if (phoneNumReg(this, this.userNumber)) {
-        this.showGetVerCode = true;
-        this.verCodeTime = new Date();
-        setTimeout(() => {
-          this.showGetVerCode = false;
-        }, 30000);
-        // let data = {
-        //   phoneNumber: this.userNumber
-        // };
-        // _registered(data).then(res => {
-        //   console.log("getCV"+res)
-        //   this.real_verCode = res
-        // });
-        this.real_verCode = infoSend(this.userNumber);
-        console.log("this.real_verCode", this.real_verCode);
+      if (phoneNumReg(this, this.userPhone)) {
+        let _vfPhoneParam = {
+          phone: this.userPhone
+        };
+        _vfPhone(_vfPhoneParam).then(res => {
+          console.log("vfphone res:" + res.msg);
+          if (res.status === 0) {
+            // 未被注册
+            this.$Message.info(res.msg)
+            setTimeout(_ =>{
+              this.goToRegister()
+            },600)
+          } else {
+            // 注册了
+            let _getInfoParam = {
+              phone: this.userPhone
+            };
+            _getInfo(_getInfoParam).then(res => {
+              console.log("getInfo res:" + res.msg);
+              if (res.status === 0) {
+                // 获取验证码成功 改变前端界面
+                this.showGetVerCode = true;
+                this.verCodeTime = new Date();
+                setTimeout(() => {
+                  this.showGetVerCode = false;
+                }, 30000);
+              }
+            });
+          }
+        });
       }
     },
     //免密码登录
     loginVerCode() {
-      if (this.real_verCode === this.in_verCode) {
-        //账号不存在
-        this.$router.replace("/register");
-        console.log("登录成功！");
+      if(phoneNumReg(this, this.userPhone) && isNotNull(this,this.in_verCode,"验证码")){
+        let data = {
+          vfcode: this.in_verCode
+        }
+        _userLoginByCode(data).then(res=>{
+          if(res.status === 0 ){
+            console.log("登录成功")
+          } else {
+            this.$Message.error(res.msg)
+          }
+        })
       }
     }
   },
