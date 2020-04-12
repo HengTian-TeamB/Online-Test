@@ -1,35 +1,54 @@
 <template>
   <div class="home">
-    <HeaderTop title="恒天在线考试系统">
-      <div class="header_login" slot="right">
-        <span class="header_login_text">登录|注册</span>
-      </div>
-    </HeaderTop>
-    <Login></Login>
+    <div class="problem" @click="goToProblem">
+      我要出题
+    </div>
+    <div class="respond" @click="goToResponder">
+      我要答题
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HeaderTop from "@/components/HeaderTop.vue";
-import Login from "@/components/Login.vue";
 export default {
   name: "Home",
-  components: {
-    HeaderTop,
-    Login
+  components: {},
+  methods: {
+    goToProblem() {
+      this.$router.push("/problem").catch(err => {
+        err;
+      });
+    },
+    goToResponder() {
+      this.$router.push("/responder").catch(err => {
+        err;
+      });
+    }
   }
 };
 </script>
 <style scoped>
-.home {
-  background: url("../../public/img/home_bg.jpg") no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  height: 100%;
-  position: fixed;
-  width: 100%;
+.problem,
+.respond {
+  background-color: rgba(239, 238, 241, 0.8);
+  float: left;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 180px;
+  height: 60px;
+  cursor: pointer;
+  text-align: center;
+  line-height: 60px;
+  font-size: 40px;
+  color: #000;
+}
+.problem {
+  left: 30%;
+}
+.respond {
+  left: 70%;
 }
 </style>

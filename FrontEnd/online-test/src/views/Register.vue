@@ -1,26 +1,24 @@
 <template>
-  <div class="register">
-    <Form class="form" ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="80">
-      <h3>欢迎注册</h3>
-      <p>已有帐号？<span @click="goToHome">登录</span></p>
-      <FormItem label="手机号">
-        <Input type="number" v-model=" formCustom.phone"></Input>
-      </FormItem>
-      <FormItem label="密码" prop="passwd">
-        <Input type="password" v-model="formCustom.passwd"></Input>
-      </FormItem>
-      <FormItem label="确认密码" prop="passwdCheck">
-        <Input type="password" v-model="formCustom.passwdCheck"></Input>
-      </FormItem>
-      <FormItem label="验证码">
-        <Input class="input_getVerCode" type="password" v-model="formCustom.vercode"></Input>
-        <Button class="btn_getVerCode" shape="circle" size="small" type="info" :disabled="showGetVerCode"
-          @click="getVerCode('formCustom')">获取验证码</Button>
-        <span class="time"><Time :time="verCodeTime" :interval="1" v-show="showGetVerCode" /></span>
-      </FormItem>
-      <Button type="primary" @click="handleSubmit('formCustom')">注册</Button>
-    </Form>
-  </div>
+  <Form class="form" ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="80">
+    <h3>欢迎注册</h3>
+    <p>已有帐号？<span @click="goToHome">登录</span></p>
+    <FormItem label="手机号">
+      <Input type="number" v-model=" formCustom.phone"></Input>
+    </FormItem>
+    <FormItem label="密码" prop="passwd">
+      <Input type="password" v-model="formCustom.passwd"></Input>
+    </FormItem>
+    <FormItem label="确认密码" prop="passwdCheck">
+      <Input type="password" v-model="formCustom.passwdCheck"></Input>
+    </FormItem>
+    <FormItem label="验证码">
+      <Input class="input_getVerCode" type="password" v-model="formCustom.vercode"></Input>
+      <Button class="btn_getVerCode" shape="circle" size="small" type="info" :disabled="showGetVerCode"
+        @click="getVerCode('formCustom')">获取验证码</Button>
+      <span class="time"><Time :time="verCodeTime" :interval="1" v-show="showGetVerCode" /></span>
+    </FormItem>
+    <Button type="primary" class="btn_register" @click="handleSubmit('formCustom')">注册</Button>
+  </Form>
 </template>
 <script>
 import { phoneNumReg } from "../utils/common";
@@ -76,10 +74,10 @@ export default {
               if (res.status === 0) {
                 // 未被注册
                 let _getInfoParam = {
-                  phone: this.formCustom.phone,
+                  phone: this.formCustom.phone
                 };
                 _getInfo(_getInfoParam).then(res => {
-                  console.log("getInfo res:" + res.msg)
+                  console.log("getInfo res:" + res.msg);
                   if (res.status === 0) {
                     // 获取验证码成功 改变前端界面
                     this.showGetVerCode = true;
@@ -131,31 +129,20 @@ export default {
 };
 </script>
 <style >
-.register {
-  background: url("../../public/img/home_bg.jpg") no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  height: 100%;
-  position: fixed;
-  width: 100%;
-}
 .form {
-  width: 500px;
-  height: 370px;
+  width: 550px;
+  height: 380px;
   background: rgba(239, 238, 241, 0.8);
   position: absolute;
   left: 50%;
   top: 50%;
-  margin-left: -250px;
-  margin-top: -175px;
-  padding: 0 40px;
+  transform: translate(-50%, -50%);
+  padding: 0 20px;
 }
 h3 {
   display: block;
   width: 160px;
-  margin-left: -30px;
+  margin-left: 5px;
   font-size: 34px;
   color: #000;
   padding-bottom: 4px;
@@ -166,7 +153,7 @@ p {
   font-size: 14px;
   color: #4d4242;
   width: 160px;
-  margin-left: -40px;
+  margin-left: 6px;
   margin-bottom: 8px;
 }
 p span {
@@ -189,5 +176,9 @@ p span {
   margin-left: 10px;
   font-size: 11px;
   color: #8590a6;
+}
+.btn_register {
+  width: 60px;
+  margin-left: 210px;
 }
 </style>

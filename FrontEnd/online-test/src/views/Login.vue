@@ -137,11 +137,13 @@ export default {
 <style scoped>
 .login-container {
   position: absolute;
-  top: 90px;
-  right: 60px;
   background-color: #fff;
-  width: 280px;
-  height: 380px;
+  padding: 0 10px;
+  width: 320px;
+  height: 400px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
 }
 .msg {
   display: block;
