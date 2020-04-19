@@ -31,7 +31,7 @@ const routes = [
   {
     path:'/problem',
     name: 'Problem',
-    component:()=>import('../views/Problem.vue')
+    component:()=>import('../views/ProUser/Problem.vue')
   },
   {
     path:'/responder',

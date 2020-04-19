@@ -82,12 +82,13 @@ export function fetch(url, params = {}) {
       params: params
     })
       .then(response => {
-        if (response.data.code === 200) {
+        if (response.status=== 200) {
           //返回成功处理  这里传的啥 后续调用的时候 res就是啥
-          resolve(response.data.data); //我们后台所有数据都是放在返回的data里所以这里统一处理了
+          resolve(response.data); 
         } else {
           //错误处理
-          console.log(response.data.msg)
+          console.log("get 请求错误")
+          console.log(response)
         }
       })
       .catch(err => {

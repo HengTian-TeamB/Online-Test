@@ -50,13 +50,14 @@
     </Col>
     <div class="container">
       <TestBank v-if="currentCho === '1-1'"></TestBank>
-      <div v-else>123</div>
+      <AddPro v-if="currentCho === '1-2'"></AddPro>
     </div>
   </div>
 </template>
 
 <script>
-import TestBank from "@/components/_TestBank";
+import TestBank from "@/views/ProUser/_TestBank";
+import AddPro from "@/views/ProUser/AddPro"
 export default {
   data() {
     return {
@@ -69,7 +70,8 @@ export default {
     }
   },
   components: {
-    TestBank
+    TestBank,
+    AddPro
   }
 };
 </script>
@@ -89,8 +91,8 @@ export default {
   position: absolute;
   top: 60px;
   left: 270px;
-  width: 890px;
-  height: 600px;
+  width: 1000px;
+  height: 630px;
   padding: 5px;
 }
 </style>
