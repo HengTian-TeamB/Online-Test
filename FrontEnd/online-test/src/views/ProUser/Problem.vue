@@ -17,6 +17,7 @@
         </template>
         <MenuItem name="2-1">自动组卷</MenuItem>
         <MenuItem name="2-2">手动组卷</MenuItem>
+        <MenuItem name="2-3">查看试卷</MenuItem>
       </Submenu>
       <Submenu name="3">
         <template slot="title">
@@ -51,6 +52,7 @@
     <div class="container">
       <TestBank v-if="currentCho === '1-1'"></TestBank>
       <AddPro v-if="currentCho === '1-2'"></AddPro>
+      <TestDetail v-if="currentCho === '2-3'"></TestDetail>
     </div>
   </div>
 </template>
@@ -58,6 +60,7 @@
 <script>
 import TestBank from "@/views/ProUser/_TestBank";
 import AddPro from "@/views/ProUser/AddPro"
+import TestDetail from "@/views/ProUser/TestDetail"
 export default {
   data() {
     return {
@@ -71,7 +74,8 @@ export default {
   },
   components: {
     TestBank,
-    AddPro
+    AddPro,
+    TestDetail
   }
 };
 </script>

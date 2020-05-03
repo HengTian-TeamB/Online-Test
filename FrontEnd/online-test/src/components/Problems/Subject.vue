@@ -11,6 +11,7 @@ export default {
 </script>
 <style scoped>
 .answer {
-    white-space: pre-line;
+    margin-top: 10px;
+    /* white-space: pre-line; */
 }
 </style>

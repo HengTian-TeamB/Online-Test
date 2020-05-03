@@ -201,8 +201,9 @@ export default {
     imgUrl: function(url) {
       if (url) {
         let header = "http://139.224.61.12:8083/images/";
-        let index = url.indexOf("img");
-        let _url = header + url.slice(index + 4);
+        // let index = url.indexOf("img");
+        // let _url = header + url.slice(index);
+        let _url = header + url;
         return _url;
       }
     }
@@ -229,6 +230,7 @@ export default {
   border-bottom: solid 5px rgba(222, 238, 241, 0.8);
   height: 160px;
   overflow: auto;
+  white-space: pre-line;
 }
 .page {
   display: block;

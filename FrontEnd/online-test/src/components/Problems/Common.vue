@@ -15,6 +15,7 @@ export default {
 
 <style scoped>
 .common {
-    height: 52px;
+    height: 55px;
+    white-space: pre-line;
 }
 </style>

@@ -23,3 +23,12 @@ export const _getAllPro = (data) => {
 export const _getLabel = (param) => {
     return fetch('/label/all', param)
 }
+// 增加题目
+export const _addPro = (data) => {
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    };
+    return post('/question/add', data, config)
+}

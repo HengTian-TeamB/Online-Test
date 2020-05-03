@@ -6,11 +6,12 @@
 
 <script>
 export default {
-    props: [
-    "answer",
-  ]
+  props: ["answer"]
 };
 </script>
 
 <style scoped>
+.answer {
+  margin-top: 50px;
+}
 </style>

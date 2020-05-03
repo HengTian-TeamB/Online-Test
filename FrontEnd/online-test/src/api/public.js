@@ -11,7 +11,7 @@ axios.defaults.timeout = 60000
 //开发环境
 axios.defaults.baseURL = '/api';
 
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=utf-8;'
 //http request 拦截器
 axios.interceptors.request.use(
   config => {
@@ -40,8 +40,16 @@ axios.interceptors.request.use(
     }
      */
     if (config.method === 'post') {
-      config.data = qs.stringify(config.data);
+      if(config.headers['Content-Type'] === "multipart/form-data"){
+        console.log(config)
+        console.log('form data')
+      } else {
+        config.data = qs.stringify(config.data);
+      }
+      
+      
     }
+    
     return config;
   },
   err => {
@@ -108,9 +116,9 @@ export function fetch(url, params = {}) {
  * @returns {Promise}
  */
 
-export function post(url, data = {}) {
+export function post(url, data,config = {}) {
   return new Promise((resolve, reject) => {
-    axios.post(url, data)
+    axios.post(url, data,config)
       .then(response => {
         // if(response.data.code === 200){
         //   resolve(response.data.data);

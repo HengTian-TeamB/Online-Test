@@ -43,7 +43,13 @@
 </template>
 
 <script>
-import { _userLogin, _vfPhone, _register, _userLoginByCode,_getInfo } from "../api/index";
+import {
+  _userLogin,
+  _vfPhone,
+  _register,
+  _userLoginByCode,
+  _getInfo
+} from "../api/index";
 import { phoneNumReg, isNotNull } from "../utils/common";
 export default {
   name: "",
@@ -53,7 +59,8 @@ export default {
       verCodeTime: "",
       userPhone: "",
       in_verCode: "",
-      userPsd: ""
+      userPsd: "",
+      userInfo: {}
     };
   },
   methods: {
@@ -71,7 +78,15 @@ export default {
         };
         // 登录
         _userLogin(data).then(res => {
-          console.log(res);
+          this.userInfo = res.data;
+          //将数据存储到sessionStorage中，防止刷新页面自动退出
+          sessionStorage.setItem("userInfo", JSON.stringify(this.userInfo));
+          // 将user保存到vuex的state
+          // this.$store.dispatch("recordUser", user);
+          this.$store.commit("initUserInfo", this.userInfo);
+          // 去主页
+          this.$router.replace("/");
+          // console.log(this.userInfo);
           if (res.status === 0) {
             this.$Message.success(res.msg);
           } else {
@@ -90,10 +105,10 @@ export default {
           console.log("vfphone res:" + res.msg);
           if (res.status === 0) {
             // 未被注册
-            this.$Message.info(res.msg)
-            setTimeout(_ =>{
-              this.goToRegister()
-            },600)
+            this.$Message.info(res.msg);
+            setTimeout(_ => {
+              this.goToRegister();
+            }, 600);
           } else {
             // 注册了
             let _getInfoParam = {
@@ -116,17 +131,30 @@ export default {
     },
     //免密码登录
     loginVerCode() {
-      if(phoneNumReg(this, this.userPhone) && isNotNull(this,this.in_verCode,"验证码")){
+      if (
+        phoneNumReg(this, this.userPhone) &&
+        isNotNull(this, this.in_verCode, "验证码")
+      ) {
         let data = {
           vfcode: this.in_verCode
-        }
-        _userLoginByCode(data).then(res=>{
-          if(res.status === 0 ){
-            console.log("登录成功")
+        };
+        _userLoginByCode(data).then(res => {
+          console.log(res)
+          if (res.status === 0) {
+            console.log("登录成功");
+            console.log(res.data);
+            this.userInfo = res.data;
+            //将数据存储到sessionStorage中，防止刷新页面自动退出
+            // sessionStorage.setItem("userInfo", JSON.stringify(this.userInfo));
+            // 将user保存到vuex的state
+            // this.$store.dispatch("recordUser", user);
+            // this.$store.commit("initUserInfo", this.userInfo);
+            // 去主页
+            this.$router.replace("/");
           } else {
-            this.$Message.error(res.msg)
+            this.$Message.error(res.msg);
           }
-        })
+        });
       }
     }
   },
@@ -143,7 +171,7 @@ export default {
   height: 400px;
   left: 50%;
   top: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
 }
 .msg {
   display: block;
