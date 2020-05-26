@@ -52,6 +52,7 @@
     <div class="container">
       <TestBank v-if="currentCho === '1-1'"></TestBank>
       <AddPro v-if="currentCho === '1-2'"></AddPro>
+      <Autopaper v-if="currentCho === '2-1'"></Autopaper>
       <TestDetail v-if="currentCho === '2-3'"></TestDetail>
     </div>
   </div>
@@ -61,6 +62,7 @@
 import TestBank from "@/views/ProUser/_TestBank";
 import AddPro from "@/views/ProUser/AddPro"
 import TestDetail from "@/views/ProUser/TestDetail"
+import Autopaper from "@/views/ProUser/AutoPaper"
 export default {
   data() {
     return {
@@ -75,7 +77,8 @@ export default {
   components: {
     TestBank,
     AddPro,
-    TestDetail
+    TestDetail,
+    Autopaper
   }
 };
 </script>

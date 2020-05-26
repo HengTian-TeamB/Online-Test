@@ -86,6 +86,7 @@ export default {
     }
 
     li {
+      list-style: none;
       float: left;
       font-size: 20px;
       line-height: 45px;

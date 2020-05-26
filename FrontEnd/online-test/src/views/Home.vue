@@ -1,11 +1,11 @@
 <template>
   <div class="home">
-    <div class="problem" @click="goToProblem">
-      我要出题
-    </div>
-    <div class="respond" @click="goToResponder">
-      我要答题
-    </div>
+    <router-link to="/problem" class="problem">
+      <span>我要出题</span>
+    </router-link>
+    <router-link to="/responder" class="respond" >
+      <span>我要答题</span>
+    </router-link>
   </div>
 </template>
 
@@ -15,16 +15,6 @@ export default {
   name: "Home",
   components: {},
   methods: {
-    goToProblem() {
-      this.$router.push("/problem").catch(err => {
-        err;
-      });
-    },
-    goToResponder() {
-      this.$router.push("/responder").catch(err => {
-        err;
-      });
-    }
   }
 };
 </script>

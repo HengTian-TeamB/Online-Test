@@ -32,3 +32,16 @@ export const _addPro = (data) => {
     };
     return post('/question/add', data, config)
 }
+// 自动组卷
+export const _autoPaper = (data) => {
+    return post('/paper/auto', data)
+}
+// 手动组卷
+// 查看所有试卷名
+export const _getAllPap = (param) => {
+    return fetch('exampaper/getAllPapersName', param)
+}
+// 根据id查看试卷内容
+export const _getPap = (param) => {
+    return fetch('exampaper/getQuestionById', param)
+}
